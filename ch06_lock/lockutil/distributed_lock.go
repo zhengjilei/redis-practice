@@ -62,7 +62,7 @@ func AcquireLockV3(client *redis.Client, lockName string, retryTimeout, lockRele
 	end := time.Now().Add(time.Duration(retryTimeout) * time.Second)
 	lockKey := getLockKey(lockName)
 	for ; time.Now().Before(end); {
-		if client.SetNX(lockKey, identifier, time.Duration(lockReleaseTimeout)).Val() {
+		if client.SetNX(lockKey, identifier, time.Duration(lockReleaseTimeout)*time.Second).Val() {
 			return identifier, nil
 		}
 		time.Sleep(time.Millisecond * 10)

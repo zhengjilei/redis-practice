@@ -15,7 +15,7 @@ func RegisterJob(name string, callback func()) {
 func TriggerJob(name string) error {
 	job, ok := task[name]
 	if ok {
-		job()
+		go job()
 		return nil
 	}
 	return errors.New("non existed job")
